@@ -40,6 +40,12 @@
 export default {
   name: "detail",
 
+  metaInfo() {
+    return {
+      title: this.$title("Detail_Title"),
+    };
+  },
+
   data: () => ({
     record: null,
     loading: true,

@@ -44,6 +44,12 @@ import { mapGetters, mapActions } from "vuex";
 import M from "materialize-css";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$title("ProfileTitle"),
+    };
+  },
+
   data: () => ({
     name: "",
     isRuLocale: true,

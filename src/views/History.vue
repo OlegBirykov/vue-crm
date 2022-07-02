@@ -40,6 +40,12 @@ import { Pie } from "vue-chartjs";
 export default {
   name: "history",
 
+  metaInfo() {
+    return {
+      title: this.$title("Menu_History"),
+    };
+  },
+
   extends: Pie,
 
   mixins: [paginationMixin],
