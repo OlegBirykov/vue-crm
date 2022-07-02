@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Редактировать</h4>
+        <h4>{{ "Edit" | localize }}</h4>
       </div>
 
       <form @submit.prevent="submitHandler">
@@ -12,7 +12,7 @@
               {{ c.title }}
             </option>
           </select>
-          <label>Выберите категорию</label>
+          <label>{{ "SelectCategory" | localize }}</label>
         </div>
 
         <div class="input-field">
@@ -22,12 +22,12 @@
             v-model="title"
             :class="{ invalid: $v.title.$dirty && !$v.title.required }"
           />
-          <label for="name">Название</label>
+          <label for="name">{{ "Title" | localize }}</label>
           <span
             v-if="$v.title.$dirty && !$v.title.required"
             class="helper-text invalid"
           >
-            Введите название категории
+            {{ "Message_CategoryTitle" | localize }}
           </span>
         </div>
 
@@ -38,17 +38,18 @@
             v-model.number="limit"
             :class="{ invalid: $v.limit.$dirty && !$v.limit.minValue }"
           />
-          <label for="limit">Лимит</label>
+          <label for="limit">{{ "Limit" | localize }}</label>
           <span
             v-if="$v.limit.$dirty && !$v.limit.minValue"
             class="helper-text invalid"
           >
-            Минимальное значение {{ $v.limit.$params.minValue.min }}
+            {{ "Message_MinLength" | localize }}
+            {{ $v.limit.$params.minValue.min }}
           </span>
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
-          Обновить
+          {{ "Update" | localize }}
           <i class="material-icons right">send</i>
         </button>
 
@@ -57,7 +58,7 @@
           type="button"
           @click="deleteClickHandler"
         >
-          Удалить
+          {{ "Delete" | localize }}
           <i class="material-icons right">send</i>
         </button>
       </form>
@@ -66,6 +67,7 @@
 </template>
 
 <script>
+import localizeFilter from "@/filters/localize.filter";
 import { required, minValue } from "vuelidate/lib/validators";
 import M from "materialize-css";
 
@@ -82,6 +84,8 @@ export default {
     title: "",
     limit: 100,
     current: null,
+    categoryUpdated: localizeFilter("Category_HasBeenUpdated"),
+    categoryDeleted: localizeFilter("Category_HasBeenDeleted"),
   }),
 
   validations: {
@@ -130,7 +134,7 @@ export default {
         };
 
         await this.$store.dispatch("updateCategory", categoryData);
-        this.$message("Категория успешно обновлена");
+        this.$message(this.categoryUpdated);
         this.$emit("updated", categoryData);
       } catch (e) {
         console.log(e);
@@ -145,7 +149,7 @@ export default {
 
       try {
         await this.$store.dispatch("deleteCategory", { id: this.current });
-        this.$message("Категория успешно удалена");
+        this.$message(this.categoryDeleted);
         this.$emit("deleted", { id: this.current });
       } catch (e) {
         console.log(e);

@@ -15,7 +15,7 @@
         <router-link
           class="btn-floating btn-large blue"
           to="/record"
-          v-tooltip="'Создать новую запись'"
+          v-tooltip="tooltip"
         >
           <i class="large material-icons">add</i>
         </router-link>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import localizeFilter from "@/filters/localize.filter";
 import Navbar from "@/components/app/Navbar";
 import Sidebar from "@/components/app/Sidebar";
 import messages from "@/utils/messages";
@@ -35,6 +36,7 @@ export default {
   data: () => ({
     isOpen: true,
     loading: true,
+    tooltip: "",
   }),
 
   async mounted() {
@@ -43,6 +45,7 @@ export default {
     }
 
     this.loading = false;
+    this.tooltip = localizeFilter("CreateNewRecord");
   },
 
   components: {
